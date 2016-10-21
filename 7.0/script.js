@@ -37,6 +37,45 @@ d3.select('#array-2').on('click',function(){ show(arr2)});
 d3.select('#array-3').on('click',function(){ show(arr3)});
 
 function show(arr){
+    
+    var updateSet = plot.selectAll("circle")
+        .data(arr, function(d){return d.id})
+        .style("stroke", "none"); //UPDATE
+
+    var enterSet = updateSet.enter()
+        .append("circle") //ENTER
+        .attr("r", 0);
+
+    console.log(enterSet.size());
+
+    var exitSet = updateSet.exit().transition().attr("r", 0).remove(); //EXIT
+
+    updateSet
+        .merge(enterSet)
+         .style("fill", function(d){
+            return d.id;
+        })
+
+        .attr("cy", h/2)
+        .transition()
+        .attr("cx", function(d,i){
+            return i*100;
+        })
+        .attr("r", 20);
+
+    plot.selectAll("circle")
+        .data(arr)
+        .enter()
+        .append("circle")
+        .style("fill", function(d){
+            return d.id;
+        })
+
+        .attr("cy", h/2)
+        .attr("cx", function(d,i){
+            return i*100;
+        })
+        .attr("r", 20);
 
 }
 
@@ -68,3 +107,4 @@ function show(arr){
         .attr('cy',h/2)
         .attr('r',20);
 }
+*/
